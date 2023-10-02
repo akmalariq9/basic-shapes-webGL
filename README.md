@@ -16,10 +16,70 @@ Berikut adalah dokumentasi serta _screenshot output_ dari code yang ada untuk pe
 
 ## **Penjelasan**
 
-_coming soon_
+Fungsi draw dalam kode untuk _RGB Triangle_ memiliki tugas utama untuk menggambar dua segitiga pada elemen _canvas_ webGL.
+
+```c++
+      function draw() {
+        gl.clearColor(0, 0, 0, 1); // specify the color to be used for clearing
+        gl.clear(gl.COLOR_BUFFER_BIT); // clear the canvas (to black)
+
+        /* Set up values for the "coords" attribute */
+
+        let coords = new Float32Array([-0.5, -0.5, -0.5, 0.5, 0.5, 0.5]);
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, bufferCoords);
+        gl.bufferData(gl.ARRAY_BUFFER, coords, gl.STREAM_DRAW);
+        gl.vertexAttribPointer(attributeCoords, 2, gl.FLOAT, false, 0, 0);
+        gl.enableVertexAttribArray(attributeCoords);
+
+        /* Set up values for the "color" attribute */
+
+        let color = new Float32Array([0, 1, 0, 1, 0, 0, 0, 0, 1]);
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, bufferColor);
+        gl.bufferData(gl.ARRAY_BUFFER, color, gl.STREAM_DRAW);
+        gl.vertexAttribPointer(attributeColor, 3, gl.FLOAT, false, 0, 0);
+        gl.enableVertexAttribArray(attributeColor);
+
+        /* Draw the triangle. */
+
+        gl.drawArrays(gl.TRIANGLES, 0, 3);
+
+        let secondcoord = new Float32Array([-0.5, -0.5, 0.5, 0.5, 0.5, -0.5]);
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, bufferCoords);
+        gl.bufferData(gl.ARRAY_BUFFER, secondcoord, gl.STREAM_DRAW);
+        gl.vertexAttribPointer(attributeCoords, 2, gl.FLOAT, false, 0, 0);
+        gl.enableVertexAttribArray(attributeCoords);
+
+        /* Set up values for the "secondcolor" attribute */
+        let secondcolor = new Float32Array([0, 1, 0, 0, 0, 1, 1, 0, 0]);
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, bufferColor);
+        gl.bufferData(gl.ARRAY_BUFFER, secondcolor, gl.STREAM_DRAW);
+        gl.vertexAttribPointer(attributeColor, 3, gl.FLOAT, false, 0, 0);
+        gl.enableVertexAttribArray(attributeColor);
+
+        /* Draw the second triangle. */
+        gl.drawArrays(gl.TRIANGLES, 0, 3);
+      }
+```
+
+Pertama, fungsi ini mengatur _background_ elemen _canvas_ menjadi hitam dengan menggunakan `gl.clearColor(0, 0, 0, 1)`. Kemudian _canvas_ tersebut dikosongkan menggunakan _function_ `gl.clear(gl.COLOR_BUFFER_BIT)`.
+
+Setelah persiapan awal, fungsi ini mulai membuat atribut koordinat dan warna untuk segitiga pertama. Koordinat segitiga pertama ditentukan pada bagian `let coords = new Float32Array([-0.5, -0.5, -0.5, 0.5, 0.5, 0.5])`, dan data warna untuk setiap koordinat segitiga pertama diatur dalam `let color = new Float32Array([0, 1, 0, 1, 0, 0, 0, 0, 1])`. Selanjutnya, _buffer_ untuk koordinat dan warna digabungkan, bersamaan dengan atribut lain yang juga diaktifkan.
+
+Setelah data segitiga selesai dibuat, maka segitiga akan digambar kedalam _canvas_ dengan `gl.drawArrays(gl.TRIANGLES, 0, 3)`.
+
+Selanjutnya, fungsi `draw` melakukan hal yang serupa untuk segitiga kedua dengan variabel `secondcoord` dan `secondcolor`. Fungsi `secondcoord` mendefinisikan koordinat dari segitiga kedua, sedangkan `secondcolor` mendefinisikan data warna untuk setiap titik pada segitiga kedua. Setelah data segitiga kedua disiapkan, segitiga kedua juga digambar dalam canvas menggunakan `gl.drawArrays(gl.TRIANGLES, 0, 3)`.
+
+Fungsi `draw` yang telah dijalankan akan menampilkan dua segitiga pada elemen _canvas_ WebGL, di mana masing-masing segitiga memiliki koordinat dan warna yang berbeda. Kedua segitiga tersebut akan membentuk sebuah persegi sesuai warna yang diberikan sebelumnya.
 
 ## **_Screenshot Ouput_**
-_coming soon_
+
+Berikut adalah _Screenshot output_ dari code tersebut:
+
+![Doubletriangle](https://media.discordapp.net/attachments/1150687865420906517/1158475870365831329/Screenshot_982.png?ex=651c623a&is=651b10ba&hm=678fc055d3bfcac7b8286e57c741ee30f5f748bc664217da1be3c18d2f2717d3&=&width=1246&height=701)
 
 # **3D Cube**
 
@@ -64,6 +124,7 @@ function draw() {
         ); // Back Face
       }
 ```
+
 _Primive Type_ (primitiveType) merupakan argumen pertama yang menentukan _mode_ untuk menggambar objek. Dalam kode tersebut, digunakan _primitive type_ `gl.TRIANGLE_FAN`, yang berarti objek akan digambar menggunakan segitiga-segitiga.
 
 Warna (colors) merupakan argumen kedua adalah _array_ yang berisi informasi tentang warna atau atribut tertentu untuk setiap titik dalam objek. Dengan argumen ini, objek yang digambar dapat memiliki warna sesuai angka dalam _array_, misalnya `[1, 1, 1, 1]` berarti warna putih dengan tingkat _opacity_ penuh.
@@ -73,6 +134,7 @@ Koordinat Titik (vertices) merupakan arguman ketiga yang merupaka _array _ denga
 Fungsi _drawPrimitive_ ini dipanggil beberapa kali untuk membuat sisi dari masing masing sisi kubus, yaitu sisi depan, belakang, atas, bawah, kanan, dan kiri.
 
 ## **_Screenshot Ouput_**
+
 Berikut adalah _Screenshot output_ dari code tersebut:
 
 - **Kubus Awal (Tampak dari depan)**
@@ -94,9 +156,6 @@ Berikut adalah _Screenshot output_ dari code tersebut:
 - **Kubus Awal (Hanya sisi kiri dan kanan)**
 
 ![Kubus2](https://cdn.discordapp.com/attachments/1150687865420906517/1158462997207973958/Screenshot_979.png?ex=651c563d&is=651b04bd&hm=fb2aad22cec28a5132b13971bdb69e34d2b90a5cde3b4be618f1effffbf295fd&)
-
-
-
 
 # **_End Of The Line_**
 
